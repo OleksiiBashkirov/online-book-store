@@ -20,23 +20,19 @@ import org.antlr.v4.runtime.misc.NotNull;
 @AllArgsConstructor
 @Builder
 public class Book {
+    //comment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     private String title;
-
     @NotNull
     private String author;
-
     @NotNull
     @Column(unique = true)
     private String isbn;
-
     @NotNull
     private BigDecimal price;
-
     private String description;
     private String coverImage;
 }
