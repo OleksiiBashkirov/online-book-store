@@ -20,7 +20,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 @AllArgsConstructor
 @Builder
 public class Book {
-    //comment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
