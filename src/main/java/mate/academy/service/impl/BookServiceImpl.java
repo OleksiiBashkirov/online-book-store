@@ -1,7 +1,6 @@
 package mate.academy.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.BookDto;
 import mate.academy.dto.CreateBookRequestDto;
@@ -28,7 +27,7 @@ public class BookServiceImpl implements BookService {
     public List<BookDto> findAll() {
         return bookRepository.findAll().stream()
                 .map(bookMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
