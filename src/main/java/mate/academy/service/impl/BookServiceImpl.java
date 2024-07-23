@@ -26,7 +26,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> findAll() {
         return bookRepository.findAll().stream()
-                .filter(book -> !book.isDeleted())
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -34,7 +33,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto findById(Long id) {
         Book book = bookRepository.findById(id)
-                .filter(b -> !b.isDeleted())
                 .orElseThrow(() -> new EntityNotFoundException("Book not found by id: " + id));
         return bookMapper.toDto(book);
     }
@@ -42,21 +40,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto update(Long id, CreateBookRequestDto requestDto) {
         Book book = bookRepository.findById(id)
-                .filter(b -> !b.isDeleted())
                 .orElseThrow(() -> new EntityNotFoundException("Book not found by id: " + id));
-        book.setTitle(requestDto.getTitle());
-        book.setAuthor(requestDto.getAuthor());
-        book.setIsbn(requestDto.getIsbn());
-        book.setPrice(requestDto.getPrice());
-        book.setDescription(requestDto.getDescription());
-        book.setCoverImage(requestDto.getCoverImage());
+        bookMapper.updateModel(book, requestDto);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
     public void deleteById(Long id) {
         Book book = bookRepository.findById(id)
-                .filter(b -> !b.isDeleted())
                 .orElseThrow(() -> new EntityNotFoundException("Book not found by id: " + id));
         book.setDeleted(true);
         bookRepository.save(book);
