@@ -29,4 +29,9 @@ public class CustomGlobalExceptionHandler {
         return new ResponseEntity<>("An error occurred: " + ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<String> handleRegistrationException(RegistrationException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
