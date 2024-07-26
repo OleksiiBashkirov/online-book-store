@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: db.changelog-4.0
+      author: mateacademy
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: 'user1@example.com'
+              - column:
+                  name: password
+                  value: 'password1'
+              - column:
+                  name: first_name
+                  value: 'Bob'
+              - column:
+                  name: last_name
+                  value: 'Alisson'
+              - column:
+                  name: shipping_address
+                  value: '123 Main St'
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: 'user2@example.com'
+              - column:
+                  name: password
+                  value: 'password2'
+              - column:
+                  name: first_name
+                  value: 'Jane'
+              - column:
+                  name: last_name
+                  value: 'Austin'
+              - column:
+                  name: shipping_address
+                  value: '456 Elm St'
