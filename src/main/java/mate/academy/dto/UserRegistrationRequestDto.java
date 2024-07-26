@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import mate.academy.annotation.FieldMatch;
+import mate.academy.validation.FieldMatch;
 
 @Data
 @FieldMatch(

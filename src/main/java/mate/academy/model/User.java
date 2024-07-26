@@ -6,10 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "users")
 public class User {
     @Id
@@ -28,6 +30,5 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(name = "shipping_address")
     private String shippingAddress;
 }

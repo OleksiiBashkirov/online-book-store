@@ -1,4 +1,4 @@
-package mate.academy.annotation;
+package mate.academy.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
