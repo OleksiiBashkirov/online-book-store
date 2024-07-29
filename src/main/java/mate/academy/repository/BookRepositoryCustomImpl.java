@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mate.academy.model.Book;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class BookRepositoryCustomImpl implements BookRepositoryCustom {
     @PersistenceContext
     private EntityManager em;

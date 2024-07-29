@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: 'user1@example.com'
               - column:
                   name: password
-                  value: 'password1'
+                  value: '$2a$10$oreKIranvK6WyN6q36xkneb5ksEAhkRXGvXKkABXTlmUUvb6JmLJq'
               - column:
                   name: first_name
                   value: 'Bob'
@@ -29,7 +29,7 @@ databaseChangeLog:
                   value: 'user2@example.com'
               - column:
                   name: password
-                  value: 'password2'
+                  value: '$2a$10$ivyapF5zCDT0OYn7Jt5.S.qqphtBeHMa3/4OJ2XzgexaVgZ6cYltC'
               - column:
                   name: first_name
                   value: 'Jane'
