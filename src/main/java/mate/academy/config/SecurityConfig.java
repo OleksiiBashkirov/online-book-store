@@ -1,16 +1,18 @@
 package mate.academy.config;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 import lombok.RequiredArgsConstructor;
 import mate.academy.security.CustomUserDetailsService;
 import mate.academy.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,49 +48,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
-        configureCorsAndCsrf(http);
-        configureAuthorization(http);
-        configureSessionManagement(http);
-        configureFilters(http);
-        configureUserDetailsService(http);
-        return http.build();
-    }
-
-    private void configureCorsAndCsrf(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.disable())
-                .csrf(csrf -> csrf.disable());
-    }
-
-    private void configureAuthorization(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/auth/**", "/error", "/swagger-ui/**", "/v3/api-docs/**")
-                .permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/books/**").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-        );
-    }
-
-    private void configureSessionManagement(HttpSecurity http)
-            throws Exception {
-        http.sessionManagement(
-                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
-    }
-
-    private void configureFilters(HttpSecurity http)
-            throws Exception {
-        http.addFilterBefore(
-                jwtAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter.class
-        );
-    }
-
-    private void configureUserDetailsService(HttpSecurity http)
-            throws Exception {
-        http.userDetailsService(customUserDetailsService);
+        return http
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        auth -> auth
+                                .requestMatchers(
+                                        antMatcher("/auth/**"),
+                                        antMatcher("/swagger-ui/**"),
+                                        antMatcher("/v3/api-docs/**"))
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                )
+                .sessionManagement(
+                        s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .userDetailsService(customUserDetailsService)
+                .build();
     }
 }
