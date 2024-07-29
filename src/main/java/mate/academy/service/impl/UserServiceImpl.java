@@ -1,6 +1,6 @@
 package mate.academy.service.impl;
 
-import java.util.Collections;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.UserRegistrationRequestDto;
 import mate.academy.dto.UserResponseDto;
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Role userRole = roleRepository.findByName(Role.RoleName.ROLE_USER)
                         .orElseThrow(() -> new RegistrationException("Role not found."));
-        user.setRoles(Collections.singleton(userRole));
+        user.setRoles(Set.of(userRole));
         userRepository.save(user);
         return userMapper.toDto(user);
     }

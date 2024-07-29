@@ -6,9 +6,7 @@ import mate.academy.dto.CreateBookRequestDto;
 import mate.academy.model.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.springframework.stereotype.Component;
 
-@Component
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
     BookDto toDto(Book book);
