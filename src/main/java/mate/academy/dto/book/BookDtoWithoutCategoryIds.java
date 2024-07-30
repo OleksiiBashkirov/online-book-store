@@ -29,6 +29,4 @@ public class BookDtoWithoutCategoryIds {
 
     private String description;
     private String coverImage;
-
-    private boolean isDeleted;
 }

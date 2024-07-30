@@ -24,14 +24,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String description;
-
-    @Column(nullable = false, name = "is_deleted")
-    private boolean isDeleted = false;
-
-    @ManyToMany(mappedBy = "categories")
-    private Set<Book> books = new HashSet<>();
 }

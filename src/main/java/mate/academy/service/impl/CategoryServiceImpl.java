@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findAll() {
         return categoryRepository.findAll().stream()
                 .map(categoryMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

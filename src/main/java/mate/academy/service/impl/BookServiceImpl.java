@@ -2,7 +2,6 @@ package mate.academy.service.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
@@ -72,7 +71,7 @@ public class BookServiceImpl implements BookService {
         }
         return bookRepository.findAll(specification).stream()
                 .map(bookMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -80,10 +79,10 @@ public class BookServiceImpl implements BookService {
             Long categoryId,
             Pageable pageable
     ) {
-        Page<Book> bookPage = bookRepository.findAllByCategoriesId(categoryId, pageable);
+        Page<Book> bookPage = bookRepository.findAllByCategoryId(categoryId, pageable);
         List<BookDtoWithoutCategoryIds> bookDtoList = bookPage.stream()
                 .map(bookMapper::toDtoWithoutCategories)
-                .collect(Collectors.toList());
+                .toList();
         return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
     }
 }

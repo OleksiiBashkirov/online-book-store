@@ -58,14 +58,6 @@ public class SecurityConfig {
                                         antMatcher("/swagger-ui/**"),
                                         antMatcher("/v3/api-docs/**"))
                                 .permitAll()
-                                .requestMatchers(
-                                        antMatcher("/api/books/**"),
-                                        antMatcher("/api/categories/**"))
-                                .hasRole("USER")
-                                .requestMatchers(
-                                        antMatcher("/api/books/**"),
-                                        antMatcher("/api/categories/**"))
-                                .hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )

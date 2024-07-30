@@ -5,6 +5,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: users_roles
+            ifNotExists: true
             columns:
               - column:
                   name: user_id
