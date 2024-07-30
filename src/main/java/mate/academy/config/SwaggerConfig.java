@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
     private static final String BEARER_AUTH = "BearerAuth";
-    public static final String BEARER_SCHEME = "bearer";
-    public static final String JWT_FORMAT = "JWT";
+    private static final String BEARER_SCHEME = "bearer";
+    private static final String JWT_FORMAT = "JWT";
 
     @Bean
     public OpenAPI customOpenApi() {
