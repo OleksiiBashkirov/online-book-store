@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import mate.academy.dto.BookDto;
-import mate.academy.dto.CreateBookRequestDto;
+import mate.academy.dto.book.BookDto;
+import mate.academy.dto.book.BookDtoWithoutCategoryIds;
+import mate.academy.dto.book.CreateBookRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
@@ -13,6 +14,7 @@ import mate.academy.repository.BookRepository;
 import mate.academy.service.BookService;
 import mate.academy.specification.BookSpecificationProvider;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable).map(bookMapper::toDto);
+        return bookRepository
+                .findAll(pageable)
+                .map(bookMapper::toDto);
     }
 
     @Override
@@ -69,5 +73,17 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(specification).stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(
+            Long categoryId,
+            Pageable pageable
+    ) {
+        Page<Book> bookPage = bookRepository.findAllByCategoriesId(categoryId, pageable);
+        List<BookDtoWithoutCategoryIds> bookDtoList = bookPage.stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .collect(Collectors.toList());
+        return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
     }
 }
