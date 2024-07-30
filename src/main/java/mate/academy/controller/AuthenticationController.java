@@ -23,7 +23,8 @@ public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
-    @Operation(summary = "Register a new user", description = "Registers a new user with the provided registration details.")
+    @Operation(summary = "Register a new user",
+            description = "Registers a new user with the provided registration details.")
     @ApiResponse(responseCode = "200", description = "User successfully registered")
     @ApiResponse(responseCode = "400", description = "Invalid registration details provided")
     @ApiResponse(responseCode = "500", description = "Internal server error")
@@ -33,7 +34,8 @@ public class AuthenticationController {
         return userService.register(requestDto);
     }
 
-    @Operation(summary = "User login", description = "Logs in a user with the provided login details.")
+    @Operation(summary = "User login",
+            description = "Logs in a user with the provided login details.")
     @ApiResponse(responseCode = "200", description = "User successfully logged in")
     @ApiResponse(responseCode = "401", description = "Invalid login credentials provided")
     @ApiResponse(responseCode = "500", description = "Internal server error")
