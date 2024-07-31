@@ -1,7 +1,6 @@
 package mate.academy.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.category.CategoryDto;
 import mate.academy.dto.category.CreateCategoryRequestDto;

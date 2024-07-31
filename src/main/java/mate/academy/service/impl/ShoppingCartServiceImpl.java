@@ -38,7 +38,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void addToCart(Long userId, Long bookId, int quantity) {
         ShoppingCart cart = getShoppingCartByUserId(userId);
-        Book book = bookRepository.findById(bookId)
+        Book book = bookRepository.findByIdWithCategories(bookId)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Book not found by id: " + bookId)
                 );
@@ -62,7 +62,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void removeCartItem(Long cartItemid) {
-        cartItemRepository.deleteById(cartItemid);
+    public void removeCartItem(Long cartItemId) {
+        cartItemRepository.deleteById(cartItemId);
     }
 }

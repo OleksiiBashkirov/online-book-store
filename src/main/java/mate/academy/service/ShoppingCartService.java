@@ -9,5 +9,5 @@ public interface ShoppingCartService {
 
     void updateCartItem(Long cartItemId, int quantity);
 
-    void removeCartItem(Long cartItemid);
+    void removeCartItem(Long cartItemId);
 }

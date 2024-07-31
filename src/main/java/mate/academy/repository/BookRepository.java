@@ -1,5 +1,6 @@
 package mate.academy.repository;
 
+import java.util.Optional;
 import mate.academy.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>,
-        BookRepositoryCustom, JpaSpecificationExecutor<Book> {
+        BookRepositoryCustom,
+        JpaSpecificationExecutor<Book> {
     @Query("SELECT b FROM Book b JOIN b.categories c WHERE c.id = :categoryId")
     Page<Book> findAllByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
+
+    @Query("SELECT b FROM Book b JOIN FETCH b.categories WHERE b.id = :id")
+    Optional<Book> findByIdWithCategories(@Param("id") Long id);
 }

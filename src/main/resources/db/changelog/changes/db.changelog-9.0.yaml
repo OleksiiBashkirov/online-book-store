@@ -25,7 +25,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_cart_item_book
-                    references: book(id)
+                    references: books(id)
               - column:
                   name: quantity
                   type: int

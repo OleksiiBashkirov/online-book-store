@@ -35,26 +35,36 @@ public class ShoppingCartController {
     @PostMapping
     public ResponseEntity<Void> addToCart(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestBody AddToCartRequest request) {
+            @RequestBody AddToCartRequest request
+    ) {
         shoppingCartService.addToCart(
                 userPrincipal.getUser(),
                 request.getBookId(),
                 request.getQuantity()
         );
-        return ResponseEntity.status(HttpStatus.CREATED).build();
 
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/cart-items/{cartItemId}")
-    public ResponseEntity<Void> updateCartItem(@PathVariable Long cartItemId,
-                                               @RequestBody UpdateCartItemRequest request) {
-        shoppingCartService.updateCartItem(cartItemId, request.getQuantity());
+    public ResponseEntity<Void> updateCartItem(
+            @PathVariable Long cartItemId,
+            @RequestBody UpdateCartItemRequest request
+    ) {
+        shoppingCartService.updateCartItem(
+                cartItemId,
+                request.getQuantity()
+        );
+
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/cart-items/{cartItemId}")
-    public ResponseEntity<Void> removeCartItem(@PathVariable Long cartItemId) {
+    public ResponseEntity<Void> removeCartItem(
+            @PathVariable Long cartItemId
+    ) {
         shoppingCartService.removeCartItem(cartItemId);
+
         return ResponseEntity.noContent().build();
     }
 }

@@ -4,7 +4,7 @@ databaseChangeLog:
       author: mateacademy
       changes:
         - createTable:
-            tableName: book
+            tableName: books
             columns:
               - column:
                   name: id
