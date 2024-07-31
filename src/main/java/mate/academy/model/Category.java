@@ -5,16 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
+@Table(name = "categories")
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE categories SET is_deleted = true WHERE id = ?")

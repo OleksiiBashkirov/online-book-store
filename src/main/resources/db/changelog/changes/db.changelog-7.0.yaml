@@ -5,7 +5,6 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: categories
-            ifNotExists: true
             columns:
               - column:
                   name: id
