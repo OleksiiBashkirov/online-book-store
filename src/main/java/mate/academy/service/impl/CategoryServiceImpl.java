@@ -1,7 +1,6 @@
 package mate.academy.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.category.CategoryDto;
 import mate.academy.dto.category.CreateCategoryRequestDto;
@@ -22,7 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findAll() {
         return categoryRepository.findAll().stream()
                 .map(categoryMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
