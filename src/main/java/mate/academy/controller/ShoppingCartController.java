@@ -28,7 +28,7 @@ public class ShoppingCartController {
     public ResponseEntity<ShoppingCart> getCart(
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
         ShoppingCart cart = shoppingCartService
-                .getShoppingCartByUserId(userPrincipal.getUser());
+                .getShoppingCartByUserId(userPrincipal.getUser().getId());
         return ResponseEntity.ok(cart);
     }
 
@@ -38,7 +38,7 @@ public class ShoppingCartController {
             @RequestBody AddToCartRequest request
     ) {
         shoppingCartService.addToCart(
-                userPrincipal.getUser(),
+                userPrincipal.getUser().getId(),
                 request.getBookId(),
                 request.getQuantity()
         );

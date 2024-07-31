@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: db.changelog-9.0
+      id: 9.0-create-cart-item-table
       author: mateacademy
       changes:
         - createTable:

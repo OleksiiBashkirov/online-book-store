@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: db.changelog-4.0
+      id: 4.0-insert-users
       author: mateacademy
       changes:
         - insert:

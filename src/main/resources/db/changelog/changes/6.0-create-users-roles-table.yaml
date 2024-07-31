@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: db.changelog-6.0
+      id: 6.0-create-users-roles-table
       author: mateacademy
       changes:
         - createTable:
