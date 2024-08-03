@@ -24,39 +24,39 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getShoppingCartByUserId(Long userId) {
-        return shoppingCartRepository.findByUserId(userId).orElseGet(() -> {
-            User user = userRepository.findById(userId)
-                    .orElseThrow(
-                            () -> new EntityNotFoundException("User not found by id: " + userId)
-                    );
-            ShoppingCart cart = new ShoppingCart();
-            cart.setUser(user);
-            return shoppingCartRepository.save(cart);
-        });
+        return shoppingCartRepository.findByUserId(userId)
+                .orElseGet(() -> createNewShoppingCartForUser(userId));
+    }
+
+    private ShoppingCart createNewShoppingCartForUser(Long userId) {
+        var user = findUserById(userId);
+        var cart = new ShoppingCart();
+        cart.setUser(user);
+        return shoppingCartRepository.save(cart);
+    }
+
+    private User findUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found by id: " + userId)
+        );
     }
 
     @Override
     public void addToCart(Long userId, Long bookId, int quantity) {
-        ShoppingCart cart = getShoppingCartByUserId(userId);
-        Book book = bookRepository.findByIdWithCategories(bookId)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("Book not found by id: " + bookId)
-                );
-        CartItem cartItem = new CartItem();
-        cartItem.setShoppingCart(cart);
-        cartItem.setBook(book);
-        cartItem.setQuantity(quantity);
-
+        var cart = getShoppingCartByUserId(userId);
+        var book = bookRepository.findByIdWithCategories(bookId).orElseThrow(
+                () -> new EntityNotFoundException("Book not found by id: " + bookId)
+        );
+        var cartItem = getCartItem(quantity, cart, book);
         cart.getCartItems().add(cartItem);
         shoppingCartRepository.save(cart);
     }
 
     @Override
     public void updateCartItem(Long cartItemId, int quantity) {
-        CartItem cartItem = cartItemRepository.findById(cartItemId)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("CartItem not found by id: " + cartItemId)
-                );
+        var cartItem = cartItemRepository.findById(cartItemId).orElseThrow(
+                () -> new EntityNotFoundException("CartItem not found by id: " + cartItemId)
+        );
         cartItem.setQuantity(quantity);
         cartItemRepository.save(cartItem);
     }
@@ -64,5 +64,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void removeCartItem(Long cartItemId) {
         cartItemRepository.deleteById(cartItemId);
+    }
+
+    private static CartItem getCartItem(int quantity, ShoppingCart cart, Book book) {
+        CartItem cartItem = new CartItem();
+        cartItem.setShoppingCart(cart);
+        cartItem.setBook(book);
+        cartItem.setQuantity(quantity);
+        return cartItem;
     }
 }

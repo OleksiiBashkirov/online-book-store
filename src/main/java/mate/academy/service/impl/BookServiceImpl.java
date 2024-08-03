@@ -27,36 +27,32 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
-        Book book = bookMapper.toModel(requestDto);
+        var book = bookMapper.toModel(requestDto);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
     public Page<BookDto> findAll(Pageable pageable) {
-        return bookRepository
-                .findAll(pageable)
+        return bookRepository.findAll(pageable)
                 .map(bookMapper::toDto);
     }
 
     @Override
     public BookDto findById(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found by id: " + id));
+        var book = getBook(id);
         return bookMapper.toDto(book);
     }
 
     @Override
     public BookDto update(Long id, CreateBookRequestDto requestDto) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found by id: " + id));
+        var book = getBook(id);
         bookMapper.updateModel(book, requestDto);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
     public void deleteById(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found by id: " + id));
+        var book = getBook(id);
         book.setDeleted(true);
         bookRepository.save(book);
     }
@@ -64,9 +60,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> searchBooks(Map<String, List<String>> searchParameters) {
         Specification<Book> specification = Specification.where(null);
-        for (Map.Entry<String, List<String>> entry : searchParameters.entrySet()) {
-            Specification<Book> sp = bookSpecificationProvider
-                    .getSpecification(entry.getValue(), entry.getKey());
+        for (var entry : searchParameters.entrySet()) {
+            var sp = bookSpecificationProvider.getSpecification(entry.getValue(), entry.getKey());
             specification = specification.and(sp);
         }
         return bookRepository.findAll(specification).stream()
@@ -84,5 +79,12 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDtoWithoutCategories)
                 .toList();
         return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
+    }
+
+    private Book getBook(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Book not found by id: " + id)
+                );
     }
 }
