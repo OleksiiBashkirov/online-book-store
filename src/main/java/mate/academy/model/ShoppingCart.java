@@ -1,8 +1,8 @@
 package mate.academy.model;
 
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +34,7 @@ public class ShoppingCart {
 
     @OneToMany(
             mappedBy = "shoppingCart",
-            cascade = CascadeType.ALL,
+            cascade = ALL,
             orphanRemoval = true
     )
     private Set<CartItem> cartItems = new HashSet<>();

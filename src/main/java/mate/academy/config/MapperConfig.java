@@ -1,12 +1,12 @@
 package mate.academy.config;
 
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.NullValueCheckStrategy;
+import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
+import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 
 @org.mapstruct.MapperConfig(
         componentModel = "spring",
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        injectionStrategy = CONSTRUCTOR,
+        nullValueCheckStrategy = ALWAYS,
         implementationName = "<CLASS_NAME>Impl"
 )
 public class MapperConfig {

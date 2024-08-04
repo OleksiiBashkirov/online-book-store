@@ -33,14 +33,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable)
-                .map(bookMapper::toDto);
+        return bookRepository.findAll(pageable).map(bookMapper::toDto);
     }
 
     @Override
     public BookDto findById(Long id) {
         var book = getBook(id);
         return bookMapper.toDto(book);
+    }
+
+    private Book getBook(Long id) {
+        return bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Book not found by id: " + id));
     }
 
     @Override
@@ -70,21 +74,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(
-            Long categoryId,
-            Pageable pageable
-    ) {
-        Page<Book> bookPage = bookRepository.findAllByCategoryId(categoryId, pageable);
-        List<BookDtoWithoutCategoryIds> bookDtoList = bookPage.stream()
+    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId,
+            Pageable pageable) {
+        var bookPage = bookRepository.findAllByCategoryId(categoryId, pageable);
+        var bookDtoList = bookPage.stream()
                 .map(bookMapper::toDtoWithoutCategories)
                 .toList();
-        return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
-    }
 
-    private Book getBook(Long id) {
-        return bookRepository.findById(id)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("Book not found by id: " + id)
-                );
+        return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
     }
 }

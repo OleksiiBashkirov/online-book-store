@@ -1,12 +1,13 @@
 package mate.academy.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.model.Order;
 import mate.academy.model.OrderItem;
 import mate.academy.security.UserPrincipal;
 import mate.academy.service.OrderService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,55 +27,41 @@ public class OrderController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Order> placeOrder(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestBody Order order
-    ) {
+    public ResponseEntity<Order> placeOrder(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody Order order) {
         order.setUser(userPrincipal.getUser());
-        Order placedOrder = orderService.placeOrder(order);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(placedOrder);
+        var placedOrder = orderService.placeOrder(order);
+        return ResponseEntity.status(CREATED).body(placedOrder);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<Order>> getOrderHistory(
-            @AuthenticationPrincipal UserPrincipal userPrincipal
-    ) {
-        List<Order> orderHistory = orderService.getOrderHistory(userPrincipal.getUser().getId());
-
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        var orderHistory = orderService.getOrderHistory(userPrincipal.getUser().getId());
         return ResponseEntity.ok(orderHistory);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Order> updateOrderStatus(
-            @PathVariable Long id,
-            @RequestBody Order order
-    ) {
-        Order updaterOrder = orderService.updateOrderStatus(id, order.getStatus());
-
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id,
+            @RequestBody Order order) {
+        var updaterOrder = orderService.updateOrderStatus(id, order.getStatus());
         return ResponseEntity.ok(updaterOrder);
     }
 
     @GetMapping("/{orderid}/items")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<OrderItem>> getOrderItems(
-            @PathVariable Long orderId
-    ) {
-        List<OrderItem> orderItems = orderService.getOrderItems(orderId);
-
+    public ResponseEntity<List<OrderItem>> getOrderItems(@PathVariable Long orderId) {
+        var orderItems = orderService.getOrderItems(orderId);
         return ResponseEntity.ok(orderItems);
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<OrderItem> getOrderItem(
-            @PathVariable Long orderId,
-            @PathVariable Long itemId
-    ) {
-        OrderItem orderItem = orderService.getOrderItem(orderId, itemId);
-
+    public ResponseEntity<OrderItem> getOrderItem(@PathVariable Long orderId,
+            @PathVariable Long itemId) {
+        var orderItem = orderService.getOrderItem(orderId, itemId);
         return ResponseEntity.ok(orderItem);
     }
 }
