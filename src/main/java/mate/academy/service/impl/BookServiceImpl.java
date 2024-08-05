@@ -70,21 +70,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(
-            Long categoryId,
-            Pageable pageable
-    ) {
-        Page<Book> bookPage = bookRepository.findAllByCategoriesId(categoryId, pageable);
-        List<BookDtoWithoutCategoryIds> bookDtoList = bookPage.stream()
+    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId,
+            Pageable pageable) {
+        var bookPage = bookRepository.findAllByCategoriesId(categoryId, pageable);
+        var bookDtoList = bookPage.stream()
                 .map(bookMapper::toDtoWithoutCategories)
                 .toList();
         return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
     }
 
     private Book getBook(Long id) {
-        return bookRepository.findById(id)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("Book not found by id: " + id)
-                );
+        return bookRepository.findById(id).orElseThrow(
+                        () -> new EntityNotFoundException("Book not found by id: " + id));
     }
 }
