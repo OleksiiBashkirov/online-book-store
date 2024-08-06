@@ -28,19 +28,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order updateOrderStatus(Long orderId, Order.Status status) {
-        var order = getOrder(orderId);
+        Order order = getOrder(orderId);
         return orderRepository.save(order);
     }
 
     @Override
     public List<OrderItem> getOrderItems(Long orderId) {
-        var order = getOrder(orderId);
+        Order order = getOrder(orderId);
         return List.copyOf(order.getOrderItems());
     }
 
     @Override
     public OrderItem getOrderItem(Long orderId, Long itemId) {
-        var order = getOrder(orderId);
+        Order order = getOrder(orderId);
         return order.getOrderItems().stream()
                 .filter(orderItem -> orderItem.getId().equals(itemId))
                 .findFirst()

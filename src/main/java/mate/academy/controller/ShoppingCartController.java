@@ -35,7 +35,7 @@ public class ShoppingCartController {
     @PostMapping
     public ResponseEntity<Void> addToCart(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody AddToCartRequest request) {
-        shoppingCartService.addToCart(userPrincipal.getUser().getId(),request.getBookId(),
+        shoppingCartService.addToCart(userPrincipal.getUser().getId(), request.getBookId(),
                 request.getQuantity());
         return ResponseEntity.status(CREATED).build();
     }
