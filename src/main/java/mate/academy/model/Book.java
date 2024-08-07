@@ -51,9 +51,9 @@ public class Book {
 
     @ManyToMany
     @JoinTable(
-            name = "book_categories",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
+            name = "books_categories",
+            joinColumns = @JoinColumn(name = "books_id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id")
     )
     private Set<Category> categories = new HashSet<>();
 }

@@ -32,6 +32,4 @@ public class BookDto {
     private String coverImage;
 
     private Set<Long> categoryIds;
-
-    private boolean isDeleted;
 }

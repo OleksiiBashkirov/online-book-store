@@ -39,7 +39,7 @@ public class CategoryController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<CategoryDto> getAll() {
+    public List<CategoryDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
         return categoryService.findAll();
     }
 
@@ -65,8 +65,7 @@ public class CategoryController {
 
     @GetMapping("/{id}/books")
     @PreAuthorize(("hasRole('ROLE_USER')"))
-    public Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(
-            @PathVariable Long id,
+    public Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id,
             @ParameterObject @PageableDefault Pageable pageable) {
         return bookService.findAllByCategoryId(id, pageable);
     }
