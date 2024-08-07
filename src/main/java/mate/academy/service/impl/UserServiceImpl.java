@@ -2,12 +2,11 @@ package mate.academy.service.impl;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import mate.academy.dto.UserRegistrationRequestDto;
-import mate.academy.dto.UserResponseDto;
+import mate.academy.dto.user.UserRegistrationRequestDto;
+import mate.academy.dto.user.UserResponseDto;
 import mate.academy.exception.RegistrationException;
 import mate.academy.mapper.UserMapper;
 import mate.academy.model.Role;
-import mate.academy.model.User;
 import mate.academy.repository.RoleRepository;
 import mate.academy.repository.UserRepository;
 import mate.academy.service.UserService;
@@ -29,9 +28,9 @@ public class UserServiceImpl implements UserService {
             throw new RegistrationException("Email already in use: " + requestDto.getEmail());
         }
 
-        User user = userMapper.toModel(requestDto);
+        var user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        Role userRole = roleRepository.findByName(Role.RoleName.ROLE_USER)
+        var userRole = roleRepository.findByName(Role.RoleName.ROLE_USER)
                         .orElseThrow(() -> new RegistrationException("Role not found."));
         user.setRoles(Set.of(userRole));
         userRepository.save(user);

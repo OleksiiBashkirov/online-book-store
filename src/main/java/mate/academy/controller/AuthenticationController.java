@@ -4,10 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mate.academy.dto.UserLoginRequestDto;
-import mate.academy.dto.UserLoginResponseDto;
-import mate.academy.dto.UserRegistrationRequestDto;
-import mate.academy.dto.UserResponseDto;
+import mate.academy.dto.user.UserLoginRequestDto;
+import mate.academy.dto.user.UserRegistrationRequestDto;
+import mate.academy.dto.user.UserResponseDto;
 import mate.academy.exception.RegistrationException;
 import mate.academy.service.AuthenticationService;
 import mate.academy.service.UserService;
@@ -40,7 +39,7 @@ public class AuthenticationController {
     @ApiResponse(responseCode = "401", description = "Invalid login credentials provided")
     @ApiResponse(responseCode = "500", description = "Internal server error")
     @PostMapping("/login")
-    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
+    public String login(@RequestBody @Valid UserLoginRequestDto requestDto) {
         return authenticationService.login(requestDto);
     }
 }

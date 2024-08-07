@@ -1,4 +1,4 @@
-package mate.academy.dto;
+package mate.academy.dto.book;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class BookDto {
+public class BookDtoWithoutCategoryIds {
     private Long id;
 
     @NotBlank(message = "Title is required")
@@ -24,7 +24,7 @@ public class BookDto {
     private String isbn;
 
     @NotNull(message = "Price is required")
-    @Min(value = 0, message = "Price cannot be less 0")
+    @Min(value = 0, message = "Price cannot be less than 0")
     private BigDecimal price;
 
     private String description;

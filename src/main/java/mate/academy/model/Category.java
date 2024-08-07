@@ -4,35 +4,27 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "categories")
 @Getter
 @Setter
-public class Role implements GrantedAuthority {
+@SQLDelete(sql = "UPDATE categories SET is_deleted = TRUE WHERE id = ?")
+@SQLRestriction(value = "is_deleted = FALSE")
+public class Category {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private RoleName name;
+    private String name;
 
-    @Override
-    public String getAuthority() {
-        return name.name();
-    }
-
-    public enum RoleName {
-        ROLE_USER,
-        ROLE_ADMIN
-    }
+    private String description;
 }
