@@ -10,6 +10,7 @@ import mate.academy.model.Category;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,5 +31,12 @@ public interface BookMapper {
                 .map(Category::getId)
                 .collect(Collectors.toSet())
         );
+    }
+
+    @Named("bookFromId")
+    default Book bookFromId(Long id) {
+        Book book = new Book();
+        book.setId(id);
+        return book;
     }
 }

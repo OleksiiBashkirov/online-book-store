@@ -1,5 +1,9 @@
 package mate.academy.config;
 
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 import lombok.RequiredArgsConstructor;
@@ -13,6 +17,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,8 +37,72 @@ public class SecurityConfig {
     }
 
     @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
+        return http
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(this::configureAuthorization)
+                .sessionManagement(
+                        s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .userDetailsService(customUserDetailsService)
+                .build();
+    }
+
+    private void configureAuthorization(
+            AuthorizeHttpRequestsConfigurer<HttpSecurity>
+                    .AuthorizationManagerRequestMatcherRegistry authorize) {
+        configurePublicEndpoints(authorize);
+        configureUserAndAdminEndpoints(authorize);
+        configureUserSpecificEndpoints(authorize);
+        configureAdminSpecificEndpoints(authorize);
+        authorize.anyRequest().authenticated();
+    }
+
+    private void configurePublicEndpoints(
+                    AuthorizeHttpRequestsConfigurer<HttpSecurity>
+                            .AuthorizationManagerRequestMatcherRegistry authorize) {
+        authorize.requestMatchers(
+                antMatcher("/auth/**"),
+                antMatcher("/swagger-ui/**"),
+                antMatcher("/v3/api-docs/**")
+        ).permitAll();
+    }
+
+    private void configureUserAndAdminEndpoints(
+            AuthorizeHttpRequestsConfigurer<HttpSecurity>
+                    .AuthorizationManagerRequestMatcherRegistry authorize) {
+        authorize.requestMatchers(
+                antMatcher(GET, "api/books/**"),
+                antMatcher(GET, "api/categories/**")
+        ).hasAnyRole("USER", "ADMIN");
+    }
+
+    private void configureUserSpecificEndpoints(
+            AuthorizeHttpRequestsConfigurer<HttpSecurity>
+                    .AuthorizationManagerRequestMatcherRegistry authorize) {
+        authorize.requestMatchers(antMatcher("/api/cart/**"))
+                .hasRole("USER");
+    }
+
+    private void configureAdminSpecificEndpoints(
+            AuthorizeHttpRequestsConfigurer<HttpSecurity>
+                    .AuthorizationManagerRequestMatcherRegistry authorize) {
+        authorize.requestMatchers(
+                antMatcher(POST, "/api/books/**"),
+                antMatcher(PUT, "/api/books/**"),
+                antMatcher(DELETE, "/api/books/**"),
+                antMatcher(POST, "/api/categories/**"),
+                antMatcher(PUT, "/api/categories/**"),
+                antMatcher(DELETE, "/api/categories/**")
+        ).hasRole("ADMIN");
+    }
+
+    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(customUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
@@ -43,29 +112,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
             throws Exception {
         return authConfig.getAuthenticationManager();
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
-        return http
-                .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        auth -> auth
-                                .requestMatchers(
-                                        antMatcher("/auth/**"),
-                                        antMatcher("/swagger-ui/**"),
-                                        antMatcher("/v3/api-docs/**"))
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                )
-                .sessionManagement(
-                        s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class)
-                .userDetailsService(customUserDetailsService)
-                .build();
     }
 }
