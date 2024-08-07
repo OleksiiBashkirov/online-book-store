@@ -3,7 +3,6 @@ package mate.academy.service.impl;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.user.UserLoginRequestDto;
 import mate.academy.exception.AuthenticationException;
-import mate.academy.model.User;
 import mate.academy.repository.UserRepository;
 import mate.academy.security.JwtUtil;
 import mate.academy.service.AuthenticationService;
@@ -18,7 +17,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     public String login(UserLoginRequestDto requestDto) {
-        User user = userRepository.findByEmail(requestDto.getEmail())
+        var user = userRepository.findByEmail(requestDto.getEmail())
                 .orElseThrow(() -> new AuthenticationException("Invalid email or password."));
 
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {

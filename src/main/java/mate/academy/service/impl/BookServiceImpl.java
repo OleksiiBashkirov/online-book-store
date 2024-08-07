@@ -76,11 +76,12 @@ public class BookServiceImpl implements BookService {
         var bookDtoList = bookPage.stream()
                 .map(bookMapper::toDtoWithoutCategories)
                 .toList();
+
         return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
     }
 
     private Book getBook(Long id) {
         return bookRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException("Book not found by id: " + id));
+                () -> new EntityNotFoundException("Book not found by id: " + id));
     }
 }

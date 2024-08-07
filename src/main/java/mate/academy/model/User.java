@@ -1,8 +1,8 @@
 package mate.academy.model;
 
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,7 +52,7 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = ALL)
     @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
     private ShoppingCart shoppingCart;
 

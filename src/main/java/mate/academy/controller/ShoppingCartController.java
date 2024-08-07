@@ -1,12 +1,13 @@
 package mate.academy.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.AddToCartRequest;
 import mate.academy.dto.UpdateCartItemRequest;
 import mate.academy.model.ShoppingCart;
 import mate.academy.security.UserPrincipal;
 import mate.academy.service.ShoppingCartService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,16 +28,16 @@ public class ShoppingCartController {
     @GetMapping
     public ResponseEntity<ShoppingCart> getCart(
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        var cart = shoppingCartService.getShoppingCartByUserId(userPrincipal.getUser());
+        var cart = shoppingCartService.getShoppingCartByUserId(userPrincipal.getUser().getId());
         return ResponseEntity.ok(cart);
     }
 
     @PostMapping
     public ResponseEntity<Void> addToCart(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody AddToCartRequest request) {
-        shoppingCartService.addToCart(userPrincipal.getUser(), request.getBookId(),
+        shoppingCartService.addToCart(userPrincipal.getUser().getId(), request.getBookId(),
                 request.getQuantity());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(CREATED).build();
     }
 
     @PutMapping("/cart-items/{cartItemId}")
