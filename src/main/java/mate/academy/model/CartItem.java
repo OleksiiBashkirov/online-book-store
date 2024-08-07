@@ -27,6 +27,7 @@ public class CartItem {
     private ShoppingCart shoppingCart;
 
     @ManyToOne(fetch = LAZY, optional = false)
+
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
