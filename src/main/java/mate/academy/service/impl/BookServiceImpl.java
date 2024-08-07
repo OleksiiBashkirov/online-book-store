@@ -78,6 +78,7 @@ public class BookServiceImpl implements BookService {
                 .toList();
 
         return new PageImpl<>(bookDtoList, pageable, bookPage.getTotalElements());
+    }
 
     private Book getBook(Long id) {
         return bookRepository.findById(id).orElseThrow(
