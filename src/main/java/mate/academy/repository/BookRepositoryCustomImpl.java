@@ -36,13 +36,4 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
             predicates.add(inClause);
         }
     }
-
-    private static void addPredicatesIfNotEmpty(String key, List<String> value,
-            CriteriaBuilder cb,Root<Book> rootBook,List<Predicate> predicates) {
-        if (!value.isEmpty()) {
-            CriteriaBuilder.In<String> inClause = cb.in(rootBook.get(key));
-            value.forEach(inClause::value);
-            predicates.add(inClause);
-        }
-    }
 }
