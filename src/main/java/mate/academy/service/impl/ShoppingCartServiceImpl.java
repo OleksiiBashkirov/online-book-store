@@ -26,14 +26,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 () -> createShoppingCartForUser(userId));
     }
 
-    private ShoppingCart createShoppingCartForUser(Long userId) {
-        var user = userRepository.findById(userId).orElseThrow(
-                () -> new EntityNotFoundException("User not found by id: " + userId));
-        var cart = new ShoppingCart();
-        cart.setUser(user);
-        return shoppingCartRepository.save(cart);
-    }
-
     @Override
     public void addToCart(Long userId, Long bookId, int quantity) {
         var cart = getShoppingCartByUserId(userId);
@@ -42,14 +34,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         var cartItem = createCartItem(quantity, cart, book);
         cart.getCartItems().add(cartItem);
         shoppingCartRepository.save(cart);
-    }
-
-    private static CartItem createCartItem(int quantity, ShoppingCart cart, Book book) {
-        var cartItem = new CartItem();
-        cartItem.setShoppingCart(cart);
-        cartItem.setBook(book);
-        cartItem.setQuantity(quantity);
-        return cartItem;
     }
 
     @Override
@@ -63,5 +47,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void removeCartItem(Long cartItemId) {
         cartItemRepository.deleteById(cartItemId);
+    }
+
+    private ShoppingCart createShoppingCartForUser(Long userId) {
+        var user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found by id: " + userId));
+        var cart = new ShoppingCart();
+        cart.setUser(user);
+        return shoppingCartRepository.save(cart);
+    }
+
+    private CartItem createCartItem(int quantity, ShoppingCart cart, Book book) {
+        var cartItem = new CartItem();
+        cartItem.setShoppingCart(cart);
+        cartItem.setBook(book);
+        cartItem.setQuantity(quantity);
+        return cartItem;
     }
 }

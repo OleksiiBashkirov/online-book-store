@@ -40,7 +40,7 @@ public class CategoryController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<CategoryDto> getAll() {
+    public List<CategoryDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
         return categoryService.findAll();
     }
 
