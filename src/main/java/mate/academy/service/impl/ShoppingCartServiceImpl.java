@@ -29,7 +29,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void addToCart(Long userId, Long bookId, int quantity) {
         var cart = getShoppingCartByUserId(userId);
-        var book = bookRepository.findByIdWithCategories(bookId).orElseThrow(
+        var book = bookRepository.findByIdWithCategory(bookId).orElseThrow(
                 () -> new EntityNotFoundException("Book not found by id: " + bookId));
         var cartItem = createCartItem(quantity, cart, book);
         cart.getCartItems().add(cartItem);

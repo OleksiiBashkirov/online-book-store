@@ -15,16 +15,22 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "books")
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE books SET is_deleted = TRUE WHERE id = ?")
 @SQLRestriction(value = "is_deleted = FALSE")
+@NoArgsConstructor
 public class Book {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -56,4 +62,8 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    public Book(Long id) {
+        this.id = id;
+    }
 }
