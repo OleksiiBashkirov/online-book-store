@@ -1,5 +1,20 @@
 package mate.academy.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import mate.academy.dto.category.CategoryDto;
 import mate.academy.dto.category.CreateCategoryRequestDto;
 import mate.academy.exception.EntityNotFoundException;
@@ -13,22 +28,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
@@ -162,12 +161,6 @@ class CategoryServiceTest {
         verify(categoryRepository, times(1)).save(category);
         verify(categoryMapper, times(1)).toDto(category);
         verifyNoMoreInteractions(categoryRepository, categoryMapper);
-        //(
-        //savedCategory -> savedCategory.getId().equals(categoryId) &&
-        //savedCategory.getName().equals("UpdatedCategoryName") &&
-        //savedCategory.getDescription().equals("UpdatedCategoryDescription")
-        //));
-        //updatedCategory);
     }
 
     @Test

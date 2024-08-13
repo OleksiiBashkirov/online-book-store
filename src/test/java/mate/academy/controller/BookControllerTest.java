@@ -4,7 +4,8 @@
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
 //import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 //import static org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript;
-//import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+//import static org.springframework.security.test.web.servlet.setup
+// .SecurityMockMvcConfigurers.springSecurity;
 //import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

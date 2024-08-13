@@ -39,8 +39,10 @@
 //
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@AutoConfigureMockMvc
-////@Sql(scripts = "classpath:database/books/setup_books_with_categories.sql", executionPhase = BEFORE_TEST_METHOD)
-////@Sql(scripts = "classpath:database/books/cleanup_books_with_categories.sql", executionPhase = AFTER_TEST_METHOD)
+////@Sql(scripts = "classpath:database/books/setup_books_with_categories.sql",
+// executionPhase = BEFORE_TEST_METHOD)
+////@Sql(scripts = "classpath:database/books/cleanup_books_with_categories.sql",
+// executionPhase = AFTER_TEST_METHOD)
 //class BookControllerTest {
 //    protected static MockMvc mockMvc;
 ////    @Autowired

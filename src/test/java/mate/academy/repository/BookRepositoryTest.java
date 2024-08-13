@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 import java.util.Optional;
-
+import lombok.Getter;
+import lombok.Setter;
 import mate.academy.config.CustomMySqlContainer;
 import mate.academy.model.Book;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,13 +19,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -33,18 +30,18 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-//@SpringBootTest(webEnvironment = RANDOM_PORT)
-//@ContextConfiguration(initializers = BookRepositoryTest.ContainerInitializer.class)
 @Sql(scripts = "classpath:database/books/setup_books_with_categories.sql",
         executionPhase = BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:database/books/cleanup_books_with_categories.sql",
         executionPhase = AFTER_TEST_METHOD)
 class BookRepositoryTest {
+    @Getter
+    @Setter
+    @Container
+    private static CustomMySqlContainer mysqlContainer = CustomMySqlContainer.getInstance();
+
     @Autowired
     private BookRepository bookRepository;
-
-    @Container
-    public static CustomMySqlContainer mysqlContainer = CustomMySqlContainer.getInstance();
 
     @BeforeAll
     static void setUp() {

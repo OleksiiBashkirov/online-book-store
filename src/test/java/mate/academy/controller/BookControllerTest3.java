@@ -30,7 +30,8 @@
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
 //import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 //import static org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript;
-//import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+//import static org.springframework.security.test.web.servlet.setup
+// .SecurityMockMvcConfigurers.springSecurity;
 //import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 //import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -40,8 +41,10 @@
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 //
 //@SpringBootTest(webEnvironment = RANDOM_PORT)
-//@Sql(scripts = "classpath:database/books/setup_books_with_categories.sql", executionPhase = BEFORE_TEST_METHOD)
-//@Sql(scripts = "classpath:database/books/cleanup_books_with_categories.sql", executionPhase = AFTER_TEST_METHOD)
+//@Sql(scripts = "classpath:database/books/setup_books_with_categories.sql",
+// executionPhase = BEFORE_TEST_METHOD)
+//@Sql(scripts = "classpath:database/books/cleanup_books_with_categories.sql",
+// executionPhase = AFTER_TEST_METHOD)
 //class BookControllerTest {
 //    protected static MockMvc mockMvc;
 //    private static final String SCRIPT_TO_INSERT_DATA_TO_DB =
