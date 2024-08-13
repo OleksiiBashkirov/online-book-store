@@ -5,9 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
+
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class CreateBookRequestDto {
     private Long id;
 
@@ -20,7 +25,7 @@ public class CreateBookRequestDto {
     private String author;
 
     @NotBlank(message = "ISBN is required")
-    @Size(min = 10, max = 13, message = "ISBN must be between 10 and 13 characters")
+    @Size(min = 10, max = 20, message = "ISBN must be between 10 and 20 characters")
     private String isbn;
 
     @NotNull(message = "Price is required")
@@ -29,4 +34,5 @@ public class CreateBookRequestDto {
 
     private String description;
     private String coverImage;
+    private Set<Long> categories;
 }
