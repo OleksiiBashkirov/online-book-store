@@ -32,6 +32,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
     private static final Long ID = 1L;
+
     private Category category;
     private CategoryDto categoryDto;
     private CreateCategoryRequestDto requestDto;

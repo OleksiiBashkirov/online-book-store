@@ -42,6 +42,7 @@ import org.springframework.data.jpa.domain.Specification;
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
     private static final Long ID = 1L;
+
     private Book book;
     private BookDto bookDto;
     private CreateBookRequestDto requestDto;

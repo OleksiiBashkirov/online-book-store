@@ -7,6 +7,9 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,9 +60,9 @@ class BookRepositoryTest {
 
         Page<Book> actual = bookRepository.findAllByCategoryId(categoryId,
                 PageRequest.of(0, 10));
-        int expected = 2;
+        int expectedSize = 2;
 
-        assertEquals(expected, actual.getContent().size());
+        assertEquals(expectedSize, actual.getContent().size());
         assertEquals("Book1", actual.getContent().get(0).getTitle());
         assertEquals("Book2", actual.getContent().get(1).getTitle());
     }
@@ -72,9 +75,9 @@ class BookRepositoryTest {
         Page<Book> actual = bookRepository.findAllByCategoryId(
                 categoryId, PageRequest.of(0, 10)
         );
-        int expected = 0;
+        int expectedSize = 0;
 
-        assertEquals(expected, actual.getContent().size());
+        assertEquals(expectedSize, actual.getContent().size());
     }
 
     @Test
@@ -85,9 +88,9 @@ class BookRepositoryTest {
         Page<Book> actual = bookRepository.findAllByCategoryId(
                 categoryId, PageRequest.of(0, 10)
         );
-        int expected = 0;
+        int expectedSize = 0;
 
-        assertEquals(expected, actual.getContent().size());
+        assertEquals(expectedSize, actual.getContent().size());
     }
 
     @Test
@@ -96,10 +99,10 @@ class BookRepositoryTest {
         long bookId = 1L;
 
         Optional<Book> actual = bookRepository.findByIdWithCategory(bookId);
-        String expected = "Book1";
+        String expectedTitle = "Book1";
 
         assertTrue(actual.isPresent());
-        assertEquals(expected, actual.get().getTitle());
+        assertEquals(expectedTitle, actual.get().getTitle());
         assertFalse(actual.get().getCategories().isEmpty());
     }
 
@@ -111,5 +114,55 @@ class BookRepositoryTest {
         Optional<Book> actual = bookRepository.findByIdWithCategory(bookId);
 
         assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Find all books by title and author")
+    void findAllBySearchParams_TitleAndAuthor_ReturnMatchingBooks() {
+        Map<String, List<String>> params = new HashMap<>();
+        params.put("title", List.of("Book1", "Book3"));
+        params.put("author", List.of("Author1"));
+
+        List<Book> actual = bookRepository.findAllBySearchParams(params);
+        int expectedSize = 1;
+
+        assertEquals(expectedSize, actual.size());
+        assertEquals("Book1", actual.get(0).getTitle());
+    }
+
+    @Test
+    @DisplayName("Find all books by ISBN")
+    void findAllBySearchParams_Isbn_ReturnMatchingBooks() {
+        Map<String, List<String>> params = new HashMap<>();
+        params.put("isbn", List.of("111222333444555"));
+
+        List<Book> actual = bookRepository.findAllBySearchParams(params);
+        int expectedSize = 1;
+
+        assertEquals(expectedSize, actual.size());
+        assertEquals("Book1", actual.get(0).getTitle());
+    }
+
+    @Test
+    @DisplayName("No books found with unmatched parameters")
+    void findAllBySearchParams_UnmatchedParams_ReturnEmptyList() {
+        Map<String, List<String>> params = new HashMap<>();
+        params.put("title", List.of("NonExistentBook"));
+        params.put("author", List.of("NonExistentAuthor"));
+
+        List<Book> actual = bookRepository.findAllBySearchParams(params);
+
+        assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Find all books by empty search parameters")
+    void findAllBySearchParams_EmptyParams_ReturnAllBooks() {
+        Map<String, List<String>> params = new HashMap<>();
+
+        List<Book> actual = bookRepository.findAllBySearchParams(params);
+        int expectedSize = 4;
+
+        assertEquals(expectedSize, actual.size());
     }
 }

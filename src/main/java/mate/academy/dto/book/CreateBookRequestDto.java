@@ -11,8 +11,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class CreateBookRequestDto {
-    private Long id;
-
     @NotBlank(message = "Title is required")
     @Size(min = 1, max = 255, message = "Title must be between 1 and 255 characters")
     private String title;
@@ -31,5 +29,4 @@ public class CreateBookRequestDto {
 
     private String description;
     private String coverImage;
-    //    private Set<Long> categories;
 }
