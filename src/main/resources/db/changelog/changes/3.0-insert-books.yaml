@@ -8,19 +8,19 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Book Title 1'
+                  value: 'Book1'
               - column:
                   name: author
-                  value: 'Author 1'
+                  value: 'Author1'
               - column:
                   name: isbn
-                  value: '1234567890123'
+                  value: '111222333444555'
               - column:
                   name: price
-                  valueNumeric: 19.99
+                  valueNumeric: 20.00
               - column:
                   name: description
-                  value: 'Description of Book 1'
+                  value: 'description Book1'
               - column:
                   name: cover_image
                   value: 'cover_image1.jpg'
@@ -32,19 +32,19 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Book Title 2'
+                  value: 'Book2'
               - column:
                   name: author
-                  value: 'Author 2'
+                  value: 'Author2'
               - column:
                   name: isbn
-                  value: '1234567890124'
+                  value: '111222333444556'
               - column:
                   name: price
-                  valueNumeric: 29.99
+                  valueNumeric: 25.00
               - column:
                   name: description
-                  value: 'Description of Book 2'
+                  value: 'description Book2'
               - column:
                   name: cover_image
                   value: 'cover_image2.jpg'
@@ -56,19 +56,19 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Book Title 3'
+                  value: 'Book3'
               - column:
                   name: author
-                  value: 'Author 3'
+                  value: 'Author3'
               - column:
                   name: isbn
-                  value: '1234567890125'
+                  value: '111222333444557'
               - column:
                   name: price
-                  valueNumeric: 39.99
+                  valueNumeric: 30.00
               - column:
                   name: description
-                  value: 'Description of Book 3'
+                  value: 'description Book3'
               - column:
                   name: cover_image
                   value: 'cover_image3.jpg'

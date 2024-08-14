@@ -10,12 +10,12 @@ databaseChangeLog:
                 name: book_id
                 type: BIGINT
                 constraints:
-                nullable: false
+                  nullable: false
               - column:
                 name: category_id
                 type: BIGINT
                 constraints:
-                nullable: false
+                  nullable: false
         - addForeignKeyConstraint:
             baseTableName: books_categories
             baseColumnNames: book_id

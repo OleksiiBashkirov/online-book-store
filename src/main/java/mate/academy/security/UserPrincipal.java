@@ -1,17 +1,13 @@
 package mate.academy.security;
 
 import java.util.Collection;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import mate.academy.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @RequiredArgsConstructor
 public class UserPrincipal implements UserDetails {
-    @Getter
-    @Setter
     private final User user;
 
     public User getUser() {
